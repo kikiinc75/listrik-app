@@ -6,18 +6,20 @@
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">List User</div>
+                <div class="card-header">List Electricity Usage</div>
 
                 <div class="card-body">
                     @include('layouts.partials.session')
-                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a>
+                    {{-- <a href="{{ route('electricity-usages.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a> --}}
                     <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Action</th>
+                                <th>Billing Month</th>
+                                <th>Billing Year</th>
+                                <th>Admin Fee</th>
+                                <th>Total Fee</th>
+                                <th>Paid At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,38 +40,39 @@
                 serverSide: true,
                 ajax: '{{ url()->current() }}',
                 columns: [{
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'username',
-                        name: 'username'
-                    },
-                    {
-                        data: 'role_name',
-                        name: 'role_name',
-                        orderable: false,
-                        searchable: false,
-                    },
-                    {
-                        name: 'action',
-                        data: 'id',
-                        orderable: false,
-                        searchable: false,
+                        data: null,
+                        name: 'electricity_accounts.kwh_number',
                         render: function(data, type, row) {
-                            // Edit Button
-                            action_button = `<a title="Edit Data" href="{{ env('APP_URL') }}/users/${data}/edit" class="btn btn-success btn-md">
-                            <i class="fa fa-edit"></i>
-                            </a>`;
-
-                            // Delete Button
-                            action_button += `<form class="d-inline" method="post" id="delete-form" action="{{ env('APP_URL') }}/users/${data}">
-                            @csrf
-                            @method('delete')
-                            <a title="Delete Data" class="btn btn-danger btn-md delete-button"><i class="fa fa-trash" id="delete-button"></i></a>
-                            </form>`;
-                            return action_button;
+                            return row['kwh_number'] + ' - ' + row['name'];
                         }
+                    },
+                    {
+                        data: null,
+                        name: 'billings.month',
+                        render: function(data, type, row) {
+                            date = new Date();
+                            date.setMonth(row['month'] - 1);
+
+                            return date.toLocaleString([], {
+                                month: 'long'
+                            });
+                        }
+                    },
+                    {
+                        data: 'year',
+                        name: 'billings.year',
+                    },
+                    {
+                        data: 'admin_fee',
+                        name: 'admin_fee'
+                    },
+                    {
+                        data: 'total_fee',
+                        name: 'total_fee'
+                    },
+                    {
+                        data: 'paid_at',
+                        name: 'paid_at',
                     },
                 ],
             });

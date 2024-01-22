@@ -6,15 +6,15 @@
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Daftar Akun Listrik</div>
+                <div class="card-header">List Electricity Account</div>
 
                 <div class="card-body">
                     @include('layouts.partials.session')
-                    <a href="{{ route('electricity-accounts.create') }}" class="btn btn-sm btn-success mb-2">Tambah Data</a>
+                    <a href="{{ route('electricity-accounts.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a>
                     <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>KWh Number</th>
+                                <th>kWh Number</th>
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Cost</th>
@@ -33,6 +33,7 @@
 
 @section('js')
     <script type="text/javascript">
+        var userRoles = {!! auth()->user()->roles[0]->toJson() !!};
         $(document).ready(function() {
             $('#tbl_list').DataTable({
                 processing: true,
@@ -66,9 +67,12 @@
                         searchable: false,
                         render: function(data, type, row) {
                             // Edit Button
-                            action_button = `<a title="Edit Data" href="{{ env('APP_URL') }}/electricity-accounts/${data}/edit" class="btn btn-success btn-md">
-                            <i class="fa fa-edit"></i>
-                            </a>`;
+                            var action_button = ''
+                            if (userRoles.slug === 'administrator') {
+                                action_button += `<a title="Edit Data" href="{{ env('APP_URL') }}/electricity-accounts/${data}/edit" class="btn btn-success btn-md">
+                                            <i class="fa fa-edit"></i>
+                                        </a>`;
+                            }
 
                             // Delete Button
                             action_button += `<form class="d-inline" method="post" id="delete-form" action="{{ env('APP_URL') }}/electricity-accounts/${data}">
@@ -84,7 +88,6 @@
         });
 
         $(document).on('click', '.delete-button', function(e) {
-            console.log('click');
             e.preventDefault();
             var form = $(this).parents('form');
             Swal.fire({

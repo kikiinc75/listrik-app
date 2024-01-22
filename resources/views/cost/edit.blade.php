@@ -30,9 +30,9 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label class="">Cost per KWh</label>
+                                    <label class="">Cost per kWh</label>
                                     <input type="number" class="form-control @error('cost_per_kwh') is-invalid @enderror"
-                                        name="cost_per_kwh" placeholder="Cost Per KWh"
+                                        name="cost_per_kwh" placeholder="Cost Per kWh"
                                         value="{{ old('cost_per_kwh') ?? $cost->cost_per_kwh }}" required>
                                     @error('cost_per_kwh')
                                         <div class="invalid-feedback d-block">
@@ -51,11 +51,3 @@
     </div>
     </div>
 @stop
-
-@section('js')
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-        });
-    </script>
-@endsection

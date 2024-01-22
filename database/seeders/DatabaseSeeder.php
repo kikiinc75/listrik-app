@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Cost;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Yajra\Acl\Models\Role;
@@ -36,6 +37,11 @@ class DatabaseSeeder extends Seeder
         $role = Role::create([
             'name' => 'Pelanggan',
             'slug' => Str::slug('Pelanggan')
+        ]);
+
+        $cost = Cost::create([
+            'power' => '900',
+            'cost_per_kwh' => '900'
         ]);
     }
 }

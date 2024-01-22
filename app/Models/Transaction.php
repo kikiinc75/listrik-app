@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ElectricityAccount extends Model
+class Transaction extends Model
 {
     use SoftDeletes;
     /**
@@ -15,14 +16,14 @@ class ElectricityAccount extends Model
      * @var array
      */
     protected $fillable = [
-        'cost_id', 'name', 'kwh_number', 'address'
+        'admin_id', 'billing_id', 'paid_at', 'admin_fee', 'total_fee'
     ];
 
     /**
-     * Get the electricty_account associated with the electricty_usage.
+     * Get the electricty_usages associated with the billings.
      */
-    public function cost(): BelongsTo
+    public function electricityUsage(): BelongsTo
     {
-        return $this->belongsTo(Cost::class);
+        return $this->belongsTo(ElectricityUsage::class);
     }
 }

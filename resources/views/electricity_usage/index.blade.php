@@ -6,17 +6,21 @@
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">List User</div>
+                <div class="card-header">List Electricity Usage</div>
 
                 <div class="card-body">
                     @include('layouts.partials.session')
-                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a>
+                    @if (Auth::user()->roles[0]->slug === 'administrator')
+                        <a href="{{ route('electricity-usages.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a>
+                    @endif
                     <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Username</th>
-                                <th>Role</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Meter From</th>
+                                <th>Meter To</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -32,6 +36,7 @@
 
 @section('js')
     <script type="text/javascript">
+        var userRoles = {!! auth()->user()->roles[0]->toJson() !!};
         $(document).ready(function() {
             $('#tbl_list').DataTable({
                 processing: true,
@@ -42,14 +47,28 @@
                         name: 'name'
                     },
                     {
-                        data: 'username',
-                        name: 'username'
+                        data: 'month',
+                        name: 'month',
+                        render: function(data, type, row) {
+                            date = new Date();
+                            date.setMonth(data - 1);
+
+                            return date.toLocaleString([], {
+                                month: 'long'
+                            });
+                        }
                     },
                     {
-                        data: 'role_name',
-                        name: 'role_name',
-                        orderable: false,
-                        searchable: false,
+                        data: 'year',
+                        name: 'year'
+                    },
+                    {
+                        data: 'meter_from',
+                        name: 'meter_from'
+                    },
+                    {
+                        data: 'meter_to',
+                        name: 'meter_to'
                     },
                     {
                         name: 'action',
@@ -57,17 +76,22 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            // Edit Button
-                            action_button = `<a title="Edit Data" href="{{ env('APP_URL') }}/users/${data}/edit" class="btn btn-success btn-md">
+                            var action_button = '';
+                            if (userRoles.slug === 'administrator') {
+                                // Edit Button
+                                action_button += `<a title="Edit Data" href="{{ env('APP_URL') }}/electricity-usages/${data}/edit" class="btn btn-success btn-md">
                             <i class="fa fa-edit"></i>
                             </a>`;
 
-                            // Delete Button
-                            action_button += `<form class="d-inline" method="post" id="delete-form" action="{{ env('APP_URL') }}/users/${data}">
+                                // Delete Button
+                                action_button += `<form class="d-inline" method="post" id="delete-form" action="{{ env('APP_URL') }}/electricity-usages/${data}">
                             @csrf
                             @method('delete')
                             <a title="Delete Data" class="btn btn-danger btn-md delete-button"><i class="fa fa-trash" id="delete-button"></i></a>
                             </form>`;
+                            } else {
+                                action_button += 'N/A'
+                            }
                             return action_button;
                         }
                     },

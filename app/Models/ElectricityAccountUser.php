@@ -6,23 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ElectricityAccount extends Model
+class ElectricityAccountUser extends Model
 {
-    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'cost_id', 'name', 'kwh_number', 'address'
+        'electricity_account_id', 'user_id'
     ];
-
-    /**
-     * Get the electricty_account associated with the electricty_usage.
-     */
-    public function cost(): BelongsTo
-    {
-        return $this->belongsTo(Cost::class);
-    }
 }

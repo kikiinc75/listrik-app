@@ -6,16 +6,16 @@
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Daftar Tarif</div>
+                <div class="card-header">List Cost</div>
 
                 <div class="card-body">
                     @include('layouts.partials.session')
-                    <a href="{{ route('costs.create') }}" class="btn btn-sm btn-success mb-2">Tambah Data</a>
+                    <a href="{{ route('costs.create') }}" class="btn btn-sm btn-success mb-2">Add Data</a>
                     <table id="tbl_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Power</th>
-                                <th>Tarif per KWh</th>
+                                <th>Cost per kWh</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -69,7 +69,6 @@
         });
 
         $(document).on('click', '.delete-button', function(e) {
-            console.log('click');
             e.preventDefault();
             var form = $(this).parents('form');
             Swal.fire({

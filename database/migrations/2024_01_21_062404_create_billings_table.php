@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('electricity_usage_id');
             $table->integer("month");
             $table->integer("year");
             $table->integer("total_meter");
             $table->string("status");
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('electricity_usage_id')->references('id')->on('electricity_usages');
             $table->timestamps();
             $table->softDeletes();
