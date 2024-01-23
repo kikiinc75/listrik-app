@@ -3,7 +3,7 @@
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1>Create Role</h1>
+    <h1>Create Cost</h1>
 @stop
 
 @section('content')

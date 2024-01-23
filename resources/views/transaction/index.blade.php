@@ -6,7 +6,7 @@
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">List Electricity Usage</div>
+                <div class="card-header">List Transaction</div>
 
                 <div class="card-body">
                     @include('layouts.partials.session')

@@ -3,14 +3,14 @@
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1>Create Usage</h1>
+    <h1>Edit Usage</h1>
 @stop
 
 @section('content')
     <div class="row justify-content-center pt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Create Usage</div>
+                <div class="card-header">Edit Usage</div>
                 <div class="card-body">
                     <form role="form" method="post" action="{{ route('electricity-usages.update', $usage->id) }}">
                         @csrf
